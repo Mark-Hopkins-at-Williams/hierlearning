@@ -111,7 +111,14 @@ def walk(nltk_node, tokens, idx, punct_tokens, text):
     """
     Recursively walk an NLTK constituency tree.
     idx is a one-element list used as a mutable counter over tokens.
-    Returns a hierplane node dict, or None for punct leaves.
+
+    Returns a minimal parse node dict, or None for punct leaves:
+      {tag, word, spans}              for leaves
+      {tag, word, children}           for phrases
+    'tag' is the raw Penn Treebank label. 'nodeType'/'link' overrides are
+    only added where a node's display needs to diverge from what its tag
+    would naturally produce (coordination wrapping, below). Everything else
+    is filled in later by to_hierplane().
     """
     label = nltk_node.label()
 
@@ -129,9 +136,8 @@ def walk(nltk_node, tokens, idx, punct_tokens, text):
             return None
 
         return {
-            'nodeType': POS_TYPES.get(label, 'word'),
+            'tag': label,
             'word': tok.text,
-            'link': label,
             'spans': [{'start': tok.idx, 'end': tok.idx + len(tok.text)}],
         }
 
@@ -147,21 +153,15 @@ def walk(nltk_node, tokens, idx, punct_tokens, text):
     if not children:
         return None
 
-    node_type = PHRASE_TYPES.get(label, 'word')
     word = span_word(children, text)
 
     # Wrap coordinated structures: phrase has a CC child
-    has_cc = any(c['nodeType'] == 'cc' for c in children)
-    if has_cc and node_type != 'coord':
-        node_type = 'coord'
+    has_cc = any(c['tag'] == 'CC' for c in children)
+    if has_cc and PHRASE_TYPES.get(label, 'word') != 'coord':
         children = [{**c, 'link': 'coord'} for c in children]
+        return {'tag': label, 'word': word, 'nodeType': 'coord', 'children': children}
 
-    return {
-        'nodeType': node_type,
-        'word': word,
-        'link': label,
-        'children': children,
-    }
+    return {'tag': label, 'word': word, 'children': children}
 
 
 def collapse_unary(node):
@@ -174,10 +174,30 @@ def collapse_unary(node):
     if not children:
         return {k: v for k, v in node.items() if k != 'children'}
     if len(children) == 1:
-        # Collapse: promote child, keep parent's link
+        # Collapse: promote child, but keep the parent's tag as the displayed link
         child = children[0]
-        return {**child, 'link': node.get('link', child.get('link', ''))}
+        return {**child, 'link': node.get('link', node['tag'])}
     return {**node, 'children': children}
+
+
+def to_hierplane(node):
+    """
+    Translate a minimal parse node (tag/word/spans|children, with optional
+    nodeType/link overrides) into the hierplane node format that Tree
+    expects: {nodeType, word, link, spans|children}.
+    """
+    is_leaf = 'spans' in node
+    default_types = POS_TYPES if is_leaf else PHRASE_TYPES
+    result = {
+        'nodeType': node.get('nodeType', default_types.get(node['tag'], 'word')),
+        'word': node['word'],
+        'link': node.get('link', node['tag']),
+    }
+    if is_leaf:
+        result['spans'] = node['spans']
+    else:
+        result['children'] = [to_hierplane(c) for c in node['children']]
+    return result
 
 
 @app.route('/api/parse', methods=['POST'])
@@ -210,7 +230,7 @@ def parse():
 
         return jsonify({
             'text': text,
-            'root': root,
+            'root': to_hierplane(root),
             'punctTokens': punct_tokens,
             'nodeTypeToStyle': NODE_TYPE_TO_STYLE,
         })

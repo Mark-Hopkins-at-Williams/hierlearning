@@ -254,7 +254,7 @@
   {
     "id": "1783220721904",
     "createdAt": "2026-07-05T03:05:21.904Z",
-    "updatedAt": "2026-07-06T14:42:59.168Z",
+    "updatedAt": "2026-07-06T19:38:53.158Z",
     "source": "I found the key to the garden.",
     "tree": {
       "nodeTypeToStyle": {
@@ -457,61 +457,58 @@
       },
       "text": "I found the key to the garden."
     },
-    "targetTokens": [
-      {
-        "id": "0.0",
-        "nodeId": "0.0",
-        "word": null
-      },
-      {
-        "id": "0.1.0",
-        "nodeId": "0.1.0",
-        "word": "habe"
-      },
-      {
-        "id": "0.1.1.0.0",
-        "nodeId": "0.1.1.0.0",
-        "word": "den"
-      },
-      {
-        "id": "0.1.1.0.1",
-        "nodeId": "0.1.1.0.1",
-        "word": "Schlüssel"
-      },
-      {
-        "id": "__phrase__0.1.1.1.0",
-        "nodeId": "0.1.1.1.0",
-        "word": "zum"
-      },
-      {
-        "id": "0.1.1.1.0.0",
-        "nodeId": "0.1.1.1.0.0",
-        "word": null
-      },
-      {
-        "id": "0.1.1.1.0.1",
-        "nodeId": "0.1.1.1.0.1",
-        "word": null
-      },
-      {
-        "id": "0.1.1.1.1",
-        "nodeId": "0.1.1.1.1",
-        "word": "Garten"
-      },
-      {
-        "id": "__punct__29",
-        "nodeId": "__punct__29",
-        "word": ".",
-        "isPunct": true
-      },
-      {
-        "id": "0.1.2",
-        "nodeId": "0.1.2",
-        "word": "gefunden"
-      }
-    ],
-    "wordOverrides": {},
-    "preview": "I habe den Schlüssel zum to the Garten . gefunden"
+    "translation": {
+      "targetTokens": [
+        {
+          "id": "0.0",
+          "nodeId": "0.0",
+          "word": null
+        },
+        {
+          "id": "0.1.0",
+          "nodeId": "0.1.0",
+          "word": "habe"
+        },
+        {
+          "id": "0.1.1.0.0",
+          "nodeId": "0.1.1.0.0",
+          "word": null
+        },
+        {
+          "id": "0.1.1.0.1",
+          "nodeId": "0.1.1.0.1",
+          "word": null
+        },
+        {
+          "id": "0.1.1.1.0",
+          "nodeId": "0.1.1.1.0",
+          "word": null
+        },
+        {
+          "id": "0.1.1.1.1.0",
+          "nodeId": "0.1.1.1.1.0",
+          "word": null
+        },
+        {
+          "id": "0.1.1.1.1.1",
+          "nodeId": "0.1.1.1.1.1",
+          "word": null
+        },
+        {
+          "id": "0.1.2",
+          "nodeId": "0.1.2",
+          "word": "gefunden"
+        },
+        {
+          "id": "__punct__29",
+          "nodeId": "__punct__29",
+          "word": ".",
+          "isPunct": true
+        }
+      ],
+      "wordOverrides": {}
+    },
+    "preview": "I habe the key to the garden gefunden"
   },
   {
     "id": "1783217854306",

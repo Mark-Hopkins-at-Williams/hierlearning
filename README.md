@@ -188,3 +188,16 @@ EnglishParser.handleLoad(record)
 Leaf nodes have `spans: [{ start, end }]` (character offsets into `text`). Phrase nodes omit `spans` and carry `children` instead. `link` is the syntactic label (Penn Treebank tag or phrase category) used to display dependency arcs.
 
 See [`src/hierplane/README.md`](src/hierplane/README.md) for the full `Tree` component API.
+
+**Inside server.py** — the parse/simplification pipeline doesn't build this shape directly. It works with a minimal internal node (`{ tag, word, spans }` or `{ tag, word, children }`, where `tag` is the raw Penn Treebank label) and only converts to the hierplane shape at the very end:
+
+```
+walk()            — NLTK constituency tree → minimal nodes; also handles
+                     coordination wrapping (CC child → nodeType: "coord")
+collapse_unary()  — promotes single-child phrase chains (e.g. NP → NN)
+to_hierplane()    — minimal node → { nodeType, word, link, spans|children },
+                     deriving nodeType/link from tag via PHRASE_TYPES/POS_TYPES
+                     unless the node already carries an explicit override
+```
+
+Keeping `tag` separate from `nodeType`/`link` means the tree-building logic never has to think in hierplane's vocabulary — only `to_hierplane()`, called once per request just before `jsonify`, does.
