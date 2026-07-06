@@ -1,0 +1,381 @@
+/* Atkinson Hyperlegible Mono on hierplane node words, labels, and attributes */
+.hierplane .node__word__label__headword,
+.hierplane .node__word__label__rollup,
+.hierplane .node__word__link__label span,
+.hierplane .node__word__attrs__item span,
+.hierplane .passage__readonly {
+  font-family: 'Atkinson Hyperlegible Mono', monospace;
+}
+
+/* Passage rows (source + target) — use #passage to beat hierplane's span specificity */
+.hierplane #passage .passage__translation__row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.hierplane #passage .passage__translation__label {
+  font-family: 'Atkinson Hyperlegible Mono', monospace;
+  font-size: 0.7em;
+  color: #888;
+  white-space: nowrap;
+  min-width: 3.5em;
+  text-align: right;
+}
+
+/* Placeholder text on the source editable */
+.hierplane .passage__source-editable:empty::before {
+  content: attr(data-placeholder);
+  color: #666;
+  pointer-events: none;
+}
+
+/* Stack the source word and translation vertically inside each tile */
+.hierplane .node__word__label {
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Translation word shown below the source word on each tile */
+.hierplane .node__word__translation {
+  font-family: 'Denk One', sans-serif;
+  font-size: 0.85em;
+  color: rgba(255, 255, 255, 0.88);
+  text-align: center;
+  margin-top: 3px;
+}
+.hierplane .node--color2 .node__word__translation,
+.hierplane .node--color6 .node__word__translation {
+  color: #0d3060;
+}
+
+/* Target passage token display — #passage prefix beats hierplane's span override */
+.hierplane #passage .target-passage {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.hierplane #passage .target-token-slot {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+}
+
+.hierplane #passage .target-token {
+  position: relative;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+}
+
+.hierplane #passage .target-token__word {
+  padding: 0 0.13875em;
+}
+
+.hierplane #passage .target-token__punct {
+  cursor: default;
+}
+
+/* Edit input inside a target token */
+.hierplane #passage .target-token__edit {
+  font-family: 'Atkinson Hyperlegible Mono', monospace;
+  font-size: 1em;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #8ab;
+  color: inherit;
+  outline: none;
+  width: auto;
+  min-width: 1em;
+}
+
+/* Anchor absolute children (clone button) to the tile */
+.hierplane .node__word {
+  position: relative;
+}
+
+/* Clone-as-sibling button on leaf tiles */
+.hierplane .node-clone-btn {
+  display: none;
+  position: absolute;
+  top: -0.55em;
+  right: -0.55em;
+  background: rgba(60, 90, 130, 0.85);
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  font-size: 0.55em;
+  padding: 1px 4px;
+  cursor: pointer;
+  z-index: 100;
+  line-height: 1.2;
+}
+.hierplane .node__word:hover .node-clone-btn {
+  display: block;
+}
+
+/* Sibling reorder preview — dashed outline on the dragged tile while hovering a drop target */
+.hierplane .node__word--reorder-preview {
+  outline: 2px dashed rgba(120, 180, 240, 0.75);
+  outline-offset: 3px;
+  border-radius: 4px;
+  opacity: 0.55;
+}
+
+/* Node word translation edit input */
+.hierplane .node__word__label__headword--editing {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255,255,255,0.4);
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  outline: none;
+  text-align: center;
+}
+
+/* Insert hint shown when parent node is being edited */
+.hierplane .node__word__insert-hint {
+  font-size: 0.7em;
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  margin-top: 2px;
+  pointer-events: none;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+#tree {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.hpdev__select-tree {
+  background: #27292a;
+  padding: 20px;
+  font-size: 1rem;
+  flex-grow: 0;
+}
+
+.equation {
+  text-align: center;
+  font-family: 'Noto Sans Math';
+  font-size: 1.7em;
+}
+
+li.toc {
+  text-align: center;
+  list-style-type: none;
+}
+
+ol {
+  font-family: Courier, "Courier New", monospace;
+}
+
+ul {
+  padding-inline-start: 0px;
+}
+
+h1 {
+  font-size: 2.4em;
+}
+
+h3 {
+  font-size: 2.9em;
+}
+
+/* Split the screen in half */
+.split {
+  height: 100%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.rowC{display:block; block-size:50%;}
+.rowElement{padding-left:10px; padding-right:10px;padding-top:0px;padding-bottom:0px;}
+
+
+
+/* Control the left side */
+.left {
+  left: 0;
+  width: 30%;
+}
+
+/* Control the right side */
+.right {
+  right: 0;
+  width: 70%;
+}
+
+.logotitle {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  margin-block-start: 0.1em;
+  margin-block-end: 0.1em;
+}
+
+.logosubtitle {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  margin-block-start: 0.0em;
+  margin-block-end: 0.0em;
+}
+
+.titleline1 {
+  font-size: 2.2em;
+}
+
+.titleline2 {
+  font-size: 3.0em;
+}
+
+.text {
+  font-family: 'Futura'
+}
+
+h4 {
+  font-size: 2.3em;
+}
+
+h4,
+h5 {
+  font-family: 'Futura', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  scroll-margin-top: 16px;
+}
+
+.centered {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  text-align: center;
+}
+
+.leftaligned {
+  position: absolute;
+  top: 4%;
+  left: 20%;
+  transform: translate(-12.5%, 0%);
+  text-align: left;
+}
+
+nav {
+  position: sticky;
+  position: -webkit-sticky;
+  /* For Safari */
+  top: 24px;
+  /* How far down the page you want your ToC to live */
+
+  /* Give table of contents a scrollbar */
+  max-height: calc(100vh - 40px);
+  overflow: auto;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 75px;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: left;
+
+  &-checkbox {
+    display: none;
+  }
+
+  &-label {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    border: 0 solid #bbb;
+    border-radius: 20px;
+    margin: 0;
+  }
+
+  &-inner {
+    display: block;
+    width: 200%;
+    margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+
+    &:before,
+    &:after {
+      display: block;
+      float: left;
+      width: 50%;
+      height: 34px;
+      padding: 0;
+      line-height: 34px;
+      font-size: 14px;
+      color: white;
+      font-weight: bold;
+      box-sizing: border-box;
+    }
+
+    &:before {
+      content: "Yes";
+      text-transform: uppercase;
+      padding-left: 10px;
+      background-color: #f90;
+      color: #fff;
+    }
+  }
+
+  &-disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+
+    &:before {
+      background-color: #ddd;
+      cursor: not-allowed;
+    }
+  }
+
+  &-inner:after {
+    content: "No";
+    text-transform: uppercase;
+    padding-right: 10px;
+    background-color: #bbb;
+    color: #fff;
+    text-align: right;
+  }
+
+  &-switch {
+    display: block;
+    width: 24px;
+    margin: 5px;
+    background: #fff;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 40px;
+    border: 0 solid #bbb;
+    border-radius: 20px;
+    transition: all 0.3s ease-in 0s;
+  }
+
+  &-checkbox:checked+&-label {
+    .toggle-switch-inner {
+      margin-left: 0;
+    }
+
+    .toggle-switch-switch {
+      right: 0px;
+    }
+  }
+}

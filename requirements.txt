@@ -1,0 +1,5 @@
+flask
+flask-cors
+spacy
+benepar[cpu]
+nltk
