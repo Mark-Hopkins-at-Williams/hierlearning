@@ -1,5 +1,4 @@
 import { useState, useEffect, React } from 'react'
-import TableOfContents from './components/tableOfContents'
 import EnglishParser from './components/EnglishParser'
 import Switch from "react-switch";
 

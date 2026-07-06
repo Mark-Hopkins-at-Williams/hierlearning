@@ -37,7 +37,6 @@ src/
 
   components/
     EnglishParser.jsx      — top-level feature: sentence input, save/load, mascot header
-    tableOfContents.jsx    — sidebar table of contents (unused in the main view)
 
   api/
     parse.js               — fetch wrapper: POST /api/parse
